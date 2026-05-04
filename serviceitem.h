@@ -41,7 +41,6 @@ public:
     int remainingTime;      // Temps restant en mois (ne peut pas être négatif)
 
     ServiceItem(ServiceItemType, ServiceTime, int remainingDistance = 0, int remainingTime = 0);
-    ServiceItem(QString);
     QString toString();
 };
 
