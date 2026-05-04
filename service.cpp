@@ -11,8 +11,7 @@ Service::Service() {
 }
 
 Service::Service(QString str) {
-    QRegExp tagExp(";");
-    QStringList parameterList = str.split(tagExp);
+    QStringList parameterList = str.split(";");
     this->date = QDate(parameterList[2].toInt(), parameterList[1].toInt(), parameterList[0].toInt());
     this->milage = parameterList[4].toInt();
     this->bmw = parameterList[5].toInt() == 1;
