@@ -1,33 +1,66 @@
-name: Build Windows
+name: Build Windows (Qt MSVC)
 
 on: [push, pull_request]
 
 jobs:
   windows:
-    name: Windows
+    name: Windows Qt Build
     runs-on: windows-latest
 
+    env:
+      QT_VERSION: "6.8.3"
+      QT_ARCH: "win64_msvc2022_64"
+
     steps:
+      # -------------------------
+      # Checkout
+      # -------------------------
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: MSVC Environment Setup
+      # -------------------------
+      # Python (évite bugs WindowsApps)
+      # -------------------------
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      # -------------------------
+      # MSVC environment
+      # -------------------------
+      - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1
 
+      # -------------------------
+      # Qt install (optimisé + cache)
+      # -------------------------
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
         with:
-          extra: '-static -ltcg'
+          version: ${{ env.QT_VERSION }}
+          arch: ${{ env.QT_ARCH }}
+          cache: true
+          cache-key-prefix: qt-${{ env.QT_VERSION }}
 
+      # -------------------------
+      # Build (qmake)
+      # -------------------------
       - name: Run QMake
         run: qmake ServiceCreator.pro
 
-      - name: Build
-        run: nmake debug
+      - name: Build (MSVC)
+        run: nmake
 
-      - name: Archive production artifacts
+      # -------------------------
+      # Artefacts propres
+      # -------------------------
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: artifacts
+          name: ServiceCreator-windows
           path: |
-            *
+            *.exe
+            release/
+            debug/
