@@ -63,6 +63,10 @@ private slots:
 
     void on_addBottomService_clicked();
 
+    void on_remainingDistance_textChanged(const QString &arg1);
+
+    void on_remainingTime_textChanged(const QString &arg1);
+
 private:
     Ui::MainWindow *ui;
     void reloadTable();

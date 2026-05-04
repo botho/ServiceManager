@@ -35,6 +35,26 @@
       <item>
        <widget class="QComboBox" name="serviceStatus"/>
       </item>
+      <item>
+       <widget class="QLineEdit" name="remainingDistance">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="placeholderText">
+         <string>Remaining Distance (km)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="remainingTime">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="placeholderText">
+         <string>Remaining Time (months)</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
     <item row="9" column="0">

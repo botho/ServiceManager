@@ -24,34 +24,36 @@ Service::Service(QString str) {
     int count = parameterList[8].toInt();
     for(int i = 0; i < count; ++i) {
         ServiceTime time = parameterList[startOffset + 1] == "0x2" ? late : parameterList[startOffset + 1] == "0x3" ? over : ok;
+        int remainingDist = parameterList[startOffset + 2].toInt();
+        int remainingTime = parameterList[startOffset + 3].toInt();
         if (parameterList[startOffset] == "1") {
-            this->items.append(ServiceItem(engineOil, time));
+            this->items.append(ServiceItem(engineOil, time, remainingDist, remainingTime));
         } else if (parameterList[startOffset] == "2") {
-            this->items.append(ServiceItem(frontBrake, time));
+            this->items.append(ServiceItem(frontBrake, time, remainingDist, remainingTime));
         } else if (parameterList[startOffset] == "3") {
-            this->items.append(ServiceItem(brakeFluid, time));
+            this->items.append(ServiceItem(brakeFluid, time, remainingDist, remainingTime));
         } else if (parameterList[startOffset] == "4") {
-            this->items.append(ServiceItem(microFilter, time));
+            this->items.append(ServiceItem(microFilter, time, remainingDist, remainingTime));
         } else if (parameterList[startOffset] == "5") {
-            this->items.append(ServiceItem(recirculatingAirFilter, time));
+            this->items.append(ServiceItem(recirculatingAirFilter, time, remainingDist, remainingTime));
         } else if (parameterList[startOffset] == "6") {
-            this->items.append(ServiceItem(rearBreak, time));
+            this->items.append(ServiceItem(rearBreak, time, remainingDist, remainingTime));
         } else if (parameterList[startOffset] == "10") {
-            this->items.append(ServiceItem(sparkPlugs, time));
+            this->items.append(ServiceItem(sparkPlugs, time, remainingDist, remainingTime));
         } else if (parameterList[startOffset] == "11") {
-            this->items.append(ServiceItem(airFilter, time));
+            this->items.append(ServiceItem(airFilter, time, remainingDist, remainingTime));
         } else if (parameterList[startOffset] == "12") {
-            this->items.append(ServiceItem(fuelFilter, time));
+            this->items.append(ServiceItem(fuelFilter, time, remainingDist, remainingTime));
         } else if (parameterList[startOffset] == "100") {
-            this->items.append(ServiceItem(vehicleCheck, time));
+            this->items.append(ServiceItem(vehicleCheck, time, remainingDist, remainingTime));
         } else if (parameterList[startOffset] == "20") {
-            this->items.append(ServiceItem(preDelivery, time));
+            this->items.append(ServiceItem(preDelivery, time, remainingDist, remainingTime));
         } else if (parameterList[startOffset] == "21") {
-            this->items.append(ServiceItem(serviceInspection, time));
+            this->items.append(ServiceItem(serviceInspection, time, remainingDist, remainingTime));
         } else if (parameterList[startOffset] == "32") {
-            this->items.append(ServiceItem(statutoryInspection, time));
+            this->items.append(ServiceItem(statutoryInspection, time, remainingDist, remainingTime));
         } else if (parameterList[startOffset] == "33") {
-            this->items.append(ServiceItem(emissionsTest, time));
+            this->items.append(ServiceItem(emissionsTest, time, remainingDist, remainingTime));
         }
         startOffset += 4;
     }

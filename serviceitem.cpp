@@ -1,12 +1,14 @@
 #include "serviceitem.h"
 
-ServiceItem::ServiceItem(ServiceItemType itemType, ServiceTime itemTime) {
+ServiceItem::ServiceItem(ServiceItemType itemType, ServiceTime itemTime, int remainingDistance, int remainingTime) {
     this->type = itemType;
     this->time = itemTime;
+    this->remainingDistance = remainingDistance;
+    this->remainingTime = remainingTime;
 }
 
 QString ServiceItem::toString() {
-    return QString("%1").arg((int)this->type) + QString(";0x%1;0;0").arg((int)this->time);
+    return QString("%1").arg((int)this->type) + QString(";0x%1;%2;%3").arg((int)this->time).arg(this->remainingDistance).arg(this->remainingTime);
 }
 
 QString TimeStringValue(ServiceTime time) {

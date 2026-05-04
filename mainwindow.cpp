@@ -21,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     ui->serviceStatus->addItems(ServiceTimeList());
     ui->serviceType->addItems(ServiceItemsList());
     ui->milage->setValidator(new QIntValidator(0, 999999, this));
+    ui->remainingDistance->setValidator(new QIntValidator(-999999, 999999, this));
+    ui->remainingTime->setValidator(new QIntValidator(0, 999999, this));
 
     setFirstSelectionAvailable(false);
 }
@@ -88,13 +90,15 @@ void MainWindow::reloadTable() {
 }
 
 void MainWindow::reloadSecondTable() {
-    ui->serviceItemsTable->setColumnCount(2);
-    ui->serviceItemsTable->setHorizontalHeaderLabels(QStringList() << "Type" << "Status");
+    ui->serviceItemsTable->setColumnCount(4);
+    ui->serviceItemsTable->setHorizontalHeaderLabels(QStringList() << "Type" << "Status" << "Remaining Distance (km)" << "Remaining Time (months)");
     ui->serviceItemsTable->setRowCount(this->service->services[this->selectedRow].items.count());
     for (int i = 0; i < this->service->services[this->selectedRow].items.count(); ++i) {
         ServiceItem item = this->service->services[this->selectedRow].items[i];
         ui->serviceItemsTable->setItem(i, 0, new QTableWidgetItem(ServiceStringValue(item.type)));
         ui->serviceItemsTable->setItem(i, 1, new QTableWidgetItem(TimeStringValue(item.time)));
+        ui->serviceItemsTable->setItem(i, 2, new QTableWidgetItem(tr("%1").arg(item.remainingDistance)));
+        ui->serviceItemsTable->setItem(i, 3, new QTableWidgetItem(tr("%1").arg(item.remainingTime)));
     }
 }
 
@@ -119,6 +123,8 @@ void MainWindow::setSecondSelectionAvailable(bool available) {
     ui->deleteSelectedService->setEnabled(available);
     ui->serviceStatus->setEnabled(available);
     ui->serviceType->setEnabled(available);
+    ui->remainingDistance->setEnabled(available);
+    ui->remainingTime->setEnabled(available);
 }
 
 void MainWindow::on_servicesTable_cellClicked(int row, int column) {
@@ -197,6 +203,8 @@ void MainWindow::on_serviceItemsTable_cellClicked(int row, int column) {
 
     ui->serviceType->setCurrentIndex(IndexForService(item.type));
     ui->serviceStatus->setCurrentIndex(IndexForTime(item.time));
+    ui->remainingDistance->setText(tr("%1").arg(item.remainingDistance));
+    ui->remainingTime->setText(tr("%1").arg(item.remainingTime));
 }
 
 void MainWindow::on_serviceType_currentIndexChanged(int index) {
@@ -230,4 +238,18 @@ void MainWindow::on_addTopService_clicked() {
 void MainWindow::on_addBottomService_clicked() {
     this->service->services[this->selectedRow].items.append(ServiceItem(engineOil, ok));
     reloadSecondTable();
+}
+
+void MainWindow::on_remainingDistance_textChanged(const QString &arg1) {
+    if (this->selectedRow < 0 || this->selectedService < 0) { return; }
+    int distance = arg1.isEmpty() ? 0 : arg1.toInt();
+    this->service->services[this->selectedRow].items[this->selectedService].remainingDistance = distance;
+    ui->serviceItemsTable->setItem(this->selectedService, 2, new QTableWidgetItem(tr("%1").arg(distance)));
+}
+
+void MainWindow::on_remainingTime_textChanged(const QString &arg1) {
+    if (this->selectedRow < 0 || this->selectedService < 0) { return; }
+    int time = arg1.isEmpty() ? 0 : arg1.toInt();
+    this->service->services[this->selectedRow].items[this->selectedService].remainingTime = time;
+    ui->serviceItemsTable->setItem(this->selectedService, 3, new QTableWidgetItem(tr("%1").arg(time)));
 }
