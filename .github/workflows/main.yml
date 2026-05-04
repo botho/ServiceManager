@@ -47,19 +47,37 @@ jobs:
       # Build (qmake)
       # -------------------------
       - name: Run QMake
-        run: qmake ServiceCreator.pro
+        run: qmake ServiceCreator.pro -config release
 
       - name: Build (MSVC)
-        run: nmake
+        run: nmake release
 
       # -------------------------
-      # Artefacts propres
+      # Deploy avec windeployqt
+      # -------------------------
+      - name: Deploy Qt libraries
+        run: |
+          mkdir deploy
+          copy release\ServiceCreator.exe deploy\
+          windeployqt --release --no-translations deploy\ServiceCreator.exe
+        shell: cmd
+
+      # -------------------------
+      # Créer un archive ZIP
+      # -------------------------
+      - name: Create portable ZIP
+        run: |
+          cd deploy
+          tar.exe -a -c -f ..\ServiceCreator-portable.zip *
+          cd ..
+        shell: cmd
+
+      # -------------------------
+      # Artefacts
       # -------------------------
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ServiceCreator-windows
-          path: |
-            *.exe
-            release/
-            debug/
+          name: ServiceCreator-windows-portable
+          path: ServiceCreator-portable.zip
+          retention-days: 30
