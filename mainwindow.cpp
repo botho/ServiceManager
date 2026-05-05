@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
     ui->setupUi(this);
 
-    this->setWindowTitle("BMW Service History Manager");
+    this->setWindowTitle("Gestionnaire d'historique de services BMW");
     ui->servicesTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->servicesTable->setSelectionMode(QAbstractItemView::SingleSelection);
 
@@ -36,7 +36,7 @@ void MainWindow::on_actionCreate_triggered() {
     if (this->fileName.count()) {
         this->service = new ServiceHistory();
         if (!this->manager.writeHistoryToFile(fileName, this->service)) {
-            QMessageBox::information(0, "error", "Could not create file");
+            QMessageBox::information(0, "erreur", "Impossible de créer le fichier");
         }
         reloadTable();
     }
@@ -47,7 +47,7 @@ void MainWindow::on_actionOpen_Test_triggered() {
     if (this->fileName.count()) {
         this->service = this->manager.readHistoryFromFile(fileName);
         if (!this->service) {
-            QMessageBox::information(0, "error", "Could not open file");
+            QMessageBox::information(0, "erreur", "Impossible d'ouvrir le fichier");
         }
         reloadTable();
     }
@@ -56,7 +56,7 @@ void MainWindow::on_actionOpen_Test_triggered() {
 void MainWindow::on_actionSafe_triggered() {
     if (this->fileName.count() > 0) {
         if (!this->manager.writeHistoryToFile(this->fileName, this->service)) {
-            QMessageBox::information(0, "error", "Could not save file");
+            QMessageBox::information(0, "erreur", "Impossible d'enregistrer le fichier");
         }
     } else {
         on_actionSave_as_triggered();
@@ -67,7 +67,7 @@ void MainWindow::on_actionSave_as_triggered() {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Create File"), QDir::homePath() + "/Desktop/test.tst", tr("Test file (*.tst)"));
     if (fileName.count()) {
         if (!this->manager.writeHistoryToFile(fileName, this->service)) {
-            QMessageBox::information(0, "error", "Could not save file");
+            QMessageBox::information(0, "erreur", "Impossible d'enregistrer le fichier");
         }
         if (this->fileName.count() == 0) {
             this->fileName = fileName;
@@ -78,7 +78,7 @@ void MainWindow::on_actionSave_as_triggered() {
 void MainWindow::reloadTable() {
     ui->historyCheckBox->setChecked(this->manager.eraseHistory);
     ui->servicesTable->setColumnCount(5);
-    ui->servicesTable->setHorizontalHeaderLabels(QStringList() << "Date" << "Milage" << "Dealer" << "BMW" << "Status");
+    ui->servicesTable->setHorizontalHeaderLabels(QStringList() << "Date" << "Kilométrage" << "Concession" << "BMW" << "Statut");
     ui->servicesTable->setRowCount(this->service->services.count());
     for (int i = 0; i < this->service->services.count(); ++i) {
         ui->servicesTable->setItem(i, 0, new QTableWidgetItem(this->service->services[i].date.toString("dd.MM.yyyy")));
@@ -91,7 +91,7 @@ void MainWindow::reloadTable() {
 
 void MainWindow::reloadSecondTable() {
     ui->serviceItemsTable->setColumnCount(4);
-    ui->serviceItemsTable->setHorizontalHeaderLabels(QStringList() << "Type" << "Status" << "Remaining Distance (km)" << "Remaining Time (months)");
+    ui->serviceItemsTable->setHorizontalHeaderLabels(QStringList() << "Type" << "Statut" << "Distance restante (km)" << "Temps restant (mois)");
     ui->serviceItemsTable->setRowCount(this->service->services[this->selectedRow].items.count());
     for (int i = 0; i < this->service->services[this->selectedRow].items.count(); ++i) {
         ServiceItem item = this->service->services[this->selectedRow].items[i];
@@ -167,7 +167,7 @@ void MainWindow::on_dealer_textChanged(const QString &arg1) {
 void MainWindow::on_bmw_stateChanged(int arg1) {
     int i = this->selectedRow;
     this->service->services[i].bmw = ui->bmw->isChecked();
-    ui->servicesTable->setItem(i, 3, new QTableWidgetItem(this->service->services[i].bmw ? "yes" : "no"));
+    ui->servicesTable->setItem(i, 3, new QTableWidgetItem(this->service->services[i].bmw ? "oui" : "non"));
 }
 
 void MainWindow::on_status_currentIndexChanged(int index) {

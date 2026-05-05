@@ -1,10 +1,10 @@
-name: Build Windows (Qt MSVC)
+name: Build Windows (Qt MSVC) - Portable Executable
 
 on: [push, pull_request]
 
 jobs:
   windows:
-    name: Windows Qt Build
+    name: Windows Qt Build - Portable
     runs-on: windows-latest
 
     env:
@@ -53,31 +53,29 @@ jobs:
         run: nmake release
 
       # -------------------------
-      # Deploy avec windeployqt
+      # Deploy avec windeployqt - Portable Standalone
       # -------------------------
       - name: Deploy Qt libraries
         run: |
-          mkdir deploy
-          copy release\ServiceCreator.exe deploy\
-          windeployqt --release --no-translations deploy\ServiceCreator.exe
+          mkdir ServiceCreator-Portable
+          copy release\BMWServiceHistoryCreator.exe ServiceCreator-Portable\
+          windeployqt --release --no-translations ServiceCreator-Portable\BMWServiceHistoryCreator.exe
         shell: cmd
 
       # -------------------------
-      # Créer un archive ZIP
+      # Créer un unique artefact 7z compressé
       # -------------------------
-      - name: Create portable ZIP
+      - name: Create 7z Portable Archive
         run: |
-          cd deploy
-          tar.exe -a -c -f ..\ServiceCreator-portable.zip *
-          cd ..
+          7z a -r ServiceCreator-Portable.7z ServiceCreator-Portable\*
         shell: cmd
 
       # -------------------------
-      # Artefacts
+      # Upload - Artefact unique
       # -------------------------
-      - name: Upload artifacts
+      - name: Upload Portable Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ServiceCreator-windows-portable
-          path: ServiceCreator-portable.zip
+          name: ServiceCreator-Portable
+          path: ServiceCreator-Portable.7z
           retention-days: 30

@@ -12,7 +12,7 @@ QString ServiceItem::toString() {
 }
 
 QString TimeStringValue(ServiceTime time) {
-    return time == ok ? "OK" : time == late ? "Late" : "Over";
+    return time == ok ? "OK" : time == late ? "En retard" : "Dépassé";
 }
 
 int IndexForTime(ServiceTime time) {
@@ -35,14 +35,25 @@ int IndexForService(ServiceItemType type) {
     case microFilter: return 3;
     case recirculatingAirFilter: return 4;
     case rearBreak: return 5;
-    case sparkPlugs: return 6;
-    case airFilter: return 7;
-    case fuelFilter: return 8;
-    case vehicleCheck: return 9;
-    case preDelivery: return 10;
-    case serviceInspection: return 11;
-    case statutoryInspection: return 12;
-    case emissionsTest: return 13;
+    case dieselFilter: return 6;
+    case fuelFilter: return 7;
+    case sparkPlugs: return 8;
+    case airFilter: return 9;
+    case fuelFilterAlt: return 10;
+    case sparkPlugsAlt: return 11;
+    case vehicleCheckManual: return 12;
+    case coolant: return 13;
+    case preDelivery: return 14;
+    case serviceInspection: return 15;
+    case dieselAdditive: return 16;
+    case statutoryInspection: return 17;
+    case emissionsTest: return 18;
+    case airFilterAlt: return 19;
+    case vehicleCheckAlt: return 20;
+    case vehicleCheck: return 21;
+    case sparkPlugsAlt2: return 22;
+    case microFilterAlt: return 23;
+    case recirculatingAirFilterAlt: return 24;
     }
 }
 
@@ -54,40 +65,65 @@ ServiceItemType ServiceForIndex(int index) {
     case 3: return microFilter;
     case 4: return recirculatingAirFilter;
     case 5: return rearBreak;
-    case 6: return sparkPlugs;
-    case 7: return airFilter;
-    case 8: return fuelFilter;
-    case 9: return vehicleCheck;
-    case 10: return preDelivery;
-    case 11: return serviceInspection;
-    case 12: return statutoryInspection;
-    case 13: return emissionsTest;
+    case 6: return dieselFilter;
+    case 7: return fuelFilter;
+    case 8: return sparkPlugs;
+    case 9: return airFilter;
+    case 10: return fuelFilterAlt;
+    case 11: return sparkPlugsAlt;
+    case 12: return vehicleCheckManual;
+    case 13: return coolant;
+    case 14: return preDelivery;
+    case 15: return serviceInspection;
+    case 16: return dieselAdditive;
+    case 17: return statutoryInspection;
+    case 18: return emissionsTest;
+    case 19: return airFilterAlt;
+    case 20: return vehicleCheckAlt;
+    case 21: return vehicleCheck;
+    case 22: return sparkPlugsAlt2;
+    case 23: return microFilterAlt;
+    case 24: return recirculatingAirFilterAlt;
     default: return engineOil;
     }
 }
 
 QString ServiceStringValue(ServiceItemType item) {
     switch (item) {
-    case engineOil: return "Engine oil";
-    case frontBrake: return "Front brakes";
-    case brakeFluid: return "Brake fluid";
-    case microFilter: return "Micro-filter";
-    case recirculatingAirFilter: return "Recirculating air filter";
-    case rearBreak: return "Rear brakes";
-    case sparkPlugs: return "Spark plugs";
-    case airFilter: return "Air filter component";
-    case fuelFilter: return "Fuel filter";
-    case vehicleCheck: return "Vehicle check";
-    case preDelivery: return "Pre delivery Check";
-    case serviceInspection: return "Service inspection";
-    case statutoryInspection: return "Statutory Inspection";
-    case emissionsTest: return "Emissions test";
+    case engineOil: return "Huile moteur";
+    case frontBrake: return "Freins avant";
+    case brakeFluid: return "Liquide de frein";
+    case microFilter: return "Microfiltre";
+    case recirculatingAirFilter: return "Filtre à air de recirculation";
+    case rearBreak: return "Freins arrière";
+    case dieselFilter: return "Filtre à gazole";
+    case fuelFilter: return "Filtre à carburant";
+    case sparkPlugs: return "Bougies d'allumage";
+    case airFilter: return "Filtre à air";
+    case fuelFilterAlt: return "Filtre à carburant (alt)";
+    case sparkPlugsAlt: return "Bougies d'allumage (alt)";
+    case vehicleCheckManual: return "Contrôle du véhicule";
+    case coolant: return "Liquide de refroidissement";
+    case preDelivery: return "Contrôle avant livraison";
+    case serviceInspection: return "Inspection de service";
+    case dieselAdditive: return "Additif pour gazole";
+    case statutoryInspection: return "Contrôle réglementaire";
+    case emissionsTest: return "Contrôle des émissions";
+    case airFilterAlt: return "Filtre à air (alt)";
+    case vehicleCheckAlt: return "Contrôle du véhicule (alt)";
+    case vehicleCheck: return "Contrôle du véhicule";
+    case sparkPlugsAlt2: return "Bougies d'allumage (alt 2)";
+    case microFilterAlt: return "Microfiltre (alt)";
+    case recirculatingAirFilterAlt: return "Filtre à air de recirculation (alt)";
     }
 }
 
 QStringList ServiceItemsList() {
     return QStringList() << ServiceStringValue(engineOil) << ServiceStringValue(frontBrake) << ServiceStringValue(brakeFluid) << ServiceStringValue(microFilter)
-                         << ServiceStringValue(recirculatingAirFilter) << ServiceStringValue(rearBreak) << ServiceStringValue(sparkPlugs) << ServiceStringValue(airFilter)
-                         << ServiceStringValue(fuelFilter) << ServiceStringValue(vehicleCheck) << ServiceStringValue(preDelivery) << ServiceStringValue(serviceInspection)
-                         << ServiceStringValue(statutoryInspection) << ServiceStringValue(emissionsTest);
+                         << ServiceStringValue(recirculatingAirFilter) << ServiceStringValue(rearBreak) << ServiceStringValue(dieselFilter) << ServiceStringValue(fuelFilter)
+                         << ServiceStringValue(sparkPlugs) << ServiceStringValue(airFilter) << ServiceStringValue(fuelFilterAlt) << ServiceStringValue(sparkPlugsAlt)
+                         << ServiceStringValue(vehicleCheckManual) << ServiceStringValue(coolant) << ServiceStringValue(preDelivery) << ServiceStringValue(serviceInspection)
+                         << ServiceStringValue(dieselAdditive) << ServiceStringValue(statutoryInspection) << ServiceStringValue(emissionsTest) << ServiceStringValue(airFilterAlt)
+                         << ServiceStringValue(vehicleCheckAlt) << ServiceStringValue(vehicleCheck) << ServiceStringValue(sparkPlugsAlt2) << ServiceStringValue(microFilterAlt)
+                         << ServiceStringValue(recirculatingAirFilterAlt);
 }
