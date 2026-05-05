@@ -53,13 +53,34 @@ jobs:
         run: nmake release
 
       # -------------------------
+      # Debug: List build artifacts
+      # -------------------------
+      - name: Check build output
+        run: |
+          echo "=== Listing release directory ==="
+          dir /s release\
+          echo.
+          echo "=== Checking for executable ==="
+          if exist "release\ServiceCreator.exe" (
+            echo Found: release\ServiceCreator.exe
+            dir release\ServiceCreator.exe
+          ) else (
+            echo ERROR: release\ServiceCreator.exe not found!
+            exit 1
+          )
+        shell: cmd
+
+      # -------------------------
       # Deploy avec windeployqt - Portable Standalone
       # -------------------------
       - name: Deploy Qt libraries
         run: |
-          mkdir BMWServiceHistoryCreator-Portable
-          copy release\BMWServiceHistoryCreator.exe BMWServiceHistoryCreator-Portable\
-          windeployqt --release --no-translations BMWServiceHistoryCreator-Portable\BMWServiceHistoryCreator.exe
+          mkdir BMWServiceHistoryManager-Portable
+          copy release\ServiceCreator.exe BMWServiceHistoryManager-Portable\BMWServiceHistoryManager.exe
+          windeployqt --release --no-translations BMWServiceHistoryManager-Portable\BMWServiceHistoryManager.exe
+          echo.
+          echo "=== Deployment complete. Listing portable directory ==="
+          dir /s BMWServiceHistoryManager-Portable\
         shell: cmd
 
       # -------------------------
@@ -67,7 +88,7 @@ jobs:
       # -------------------------
       - name: Create 7z Portable Archive
         run: |
-          7z a -r BMWServiceHistoryCreator-Portable.7z BMWServiceHistoryCreator-Portable\*
+          7z a -r BMWServiceHistoryManager-Portable.7z BMWServiceHistoryManager-Portable\*
         shell: cmd
 
       # -------------------------
@@ -76,6 +97,6 @@ jobs:
       - name: Upload Portable Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: BMWServiceHistoryCreator-Portable
-          path: BMWServiceHistoryCreator-Portable.7z
+          name: BMWServiceHistoryManager-Portable
+          path: BMWServiceHistoryManager-Portable.7z
           retention-days: 30
