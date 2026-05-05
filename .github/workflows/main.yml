@@ -57,9 +57,9 @@ jobs:
       # -------------------------
       - name: Deploy Qt libraries
         run: |
-          mkdir ServiceCreator-Portable
-          copy release\BMWServiceHistoryCreator.exe ServiceCreator-Portable\
-          windeployqt --release --no-translations ServiceCreator-Portable\BMWServiceHistoryCreator.exe
+          mkdir BMWServiceHistoryCreator-Portable
+          copy release\BMWServiceHistoryCreator.exe BMWServiceHistoryCreator-Portable\
+          windeployqt --release --no-translations BMWServiceHistoryCreator-Portable\BMWServiceHistoryCreator.exe
         shell: cmd
 
       # -------------------------
@@ -67,7 +67,7 @@ jobs:
       # -------------------------
       - name: Create 7z Portable Archive
         run: |
-          7z a -r ServiceCreator-Portable.7z ServiceCreator-Portable\*
+          7z a -r BMWServiceHistoryCreator-Portable.7z BMWServiceHistoryCreator-Portable\*
         shell: cmd
 
       # -------------------------
@@ -76,6 +76,6 @@ jobs:
       - name: Upload Portable Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ServiceCreator-Portable
-          path: ServiceCreator-Portable.7z
+          name: BMWServiceHistoryCreator-Portable
+          path: BMWServiceHistoryCreator-Portable.7z
           retention-days: 30
