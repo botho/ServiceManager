@@ -29,14 +29,13 @@ jobs:
         uses: actions/checkout@v4
 
       # -------------------------
-      # Install Qt Static (via aqt with jurplel v2)
+      # Install Qt Static (manual aqt install)
       # -------------------------
       - name: Install Qt Static
-        uses: jurplel/install-qt-action@v2
-        with:
-          version: '6.8.3'
-          arch: 'win64_msvc2022_64'
-          extra: '-static -ltcg'
+        run: |
+          python -m pip install --upgrade pip setuptools
+          python -m pip install aqtinstall
+          python -m aqt install-qt windows desktop 6.8.3 win64_msvc2022_64 -m qtbase -m qttools --autodesktop -static -ltcg
 
       # -------------------------
       # Build
