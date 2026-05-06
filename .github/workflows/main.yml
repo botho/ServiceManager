@@ -3,7 +3,7 @@ on: [push, pull_request]
 
 jobs:
   windows:
-    name: Windows - Static Qt Build
+    name: Windows - Qt Build
     runs-on: windows-latest
     steps:
 
@@ -15,12 +15,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Qt Static
+      - name: Install Qt
         uses: jurplel/install-qt-action@v4
         with:
           version: '6.8.3'
-          arch: 'win64_msvc2022_64_static'   # ← variante statique intégrée
-          # extra: supprimé, inutile en v4
+          arch: 'win64_msvc2022_64'   # build dynamique, disponible via aqt
 
       - name: Run QMake
         run: qmake ServiceCreator.pro CONFIG+=release
@@ -28,12 +27,16 @@ jobs:
       - name: Build
         run: nmake release
 
-      - name: Package Release
+      - name: Deploy Qt DLLs
         shell: cmd
         run: |
           mkdir release-pkg
-          copy release\BMWServiceHistoryManager.exe release-pkg\BMWServiceHistoryManager.exe
-          7z a BMWServiceHistoryManager-Portable.7z release-pkg\*
+          copy release\BMWServiceHistoryManager.exe release-pkg\
+          windeployqt --release --no-translations release-pkg\BMWServiceHistoryManager.exe
+
+      - name: Package
+        shell: cmd
+        run: 7z a BMWServiceHistoryManager-Portable.7z release-pkg\*
 
       - name: Upload Release
         uses: actions/upload-artifact@v4
