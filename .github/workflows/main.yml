@@ -1,57 +1,40 @@
 name: Build Windows
-
 on: [push, pull_request]
 
 jobs:
   windows:
     name: Windows - Static Qt Build
     runs-on: windows-latest
-
     steps:
-      # -------------------------
-      # MSVC Environment
-      # -------------------------
+
       - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
 
-      # -------------------------
-      # Checkout
-      # -------------------------
       - name: Checkout
         uses: actions/checkout@v4
 
-      # -------------------------
-      # Install Qt Static (via jurplel v2)
-      # -------------------------
       - name: Install Qt Static
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v4        # v3 ou v4, tous deux corrigés
         with:
           version: '6.8.3'
           arch: 'win64_msvc2022_64'
           extra: '-static -ltcg'
 
-      # -------------------------
-      # Build
-      # -------------------------
       - name: Run QMake
-        run: qmake ServiceCreator.pro -config release
+        run: qmake ServiceCreator.pro CONFIG+=release
 
-      - name: Build (nmake)
+      - name: Build
         run: nmake release
 
-      # -------------------------
-      # Package Executable
-      # -------------------------
       - name: Package Release
+        shell: cmd
         run: |
           mkdir release-pkg
           copy release\BMWServiceHistoryManager.exe release-pkg\BMWServiceHistoryManager.exe
           7z a BMWServiceHistoryManager-Portable.7z release-pkg\*
-        shell: cmd
 
-      # -------------------------
-      # Upload Artifact
-      # -------------------------
       - name: Upload Release
         uses: actions/upload-artifact@v4
         with:
