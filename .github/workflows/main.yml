@@ -1,17 +1,19 @@
-name: Build Windows (Qt MSVC) - Portable Executable
+name: Build Windows
 
 on: [push, pull_request]
 
 jobs:
   windows:
-    name: Windows Qt Build - Portable
+    name: Windows - Static Qt Build
     runs-on: windows-latest
 
-    env:
-      QT_VERSION: "6.8.3"
-      QT_ARCH: "win64_msvc2022_64"
-
     steps:
+      # -------------------------
+      # MSVC Environment
+      # -------------------------
+      - name: Setup MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+
       # -------------------------
       # Checkout
       # -------------------------
@@ -19,85 +21,38 @@ jobs:
         uses: actions/checkout@v4
 
       # -------------------------
-      # MSVC environment
-      # -------------------------
-      - name: Setup MSVC
-        uses: ilammy/msvc-dev-cmd@v1
-
-      # -------------------------
-      # Qt install STATIC via aqt
+      # Install Qt Static (via aqt with jurplel v2)
       # -------------------------
       - name: Install Qt Static
-        uses: jurplel/install-qt-action@v4
+        uses: jurplel/install-qt-action@v2
         with:
-          version: ${{ env.QT_VERSION }}
-          arch: ${{ env.QT_ARCH }}
+          version: '6.8.3'
+          arch: 'win64_msvc2022_64'
           extra: '-static -ltcg'
-          cache: true
-          cache-key-prefix: qt-static-${{ env.QT_VERSION }}
 
       # -------------------------
-      # Build (qmake with static Qt)
+      # Build
       # -------------------------
       - name: Run QMake
         run: qmake ServiceCreator.pro -config release
 
-      - name: Build (MSVC)
+      - name: Build (nmake)
         run: nmake release
 
       # -------------------------
-      # Debug: List build artifacts
+      # Package Executable
       # -------------------------
-      - name: Check build output
+      - name: Package Release
         run: |
-          echo "=== Listing release directory ==="
-          dir /s release\
-          echo.
-          echo "=== Checking for executable ==="
-          if exist "release\BMWServiceHistoryManager.exe" (
-            echo Found: release\BMWServiceHistoryManager.exe
-            dir release\BMWServiceHistoryManager.exe
-          ) else (
-            echo ERROR: release\BMWServiceHistoryManager.exe not found!
-            exit 1
-          )
+          mkdir release-pkg
+          copy release\BMWServiceHistoryManager.exe release-pkg\BMWServiceHistoryManager.exe
+          7z a BMWServiceHistoryManager-Portable.7z release-pkg\*
         shell: cmd
 
       # -------------------------
-      # Deploy - Executable seul (tout embarqué)
+      # Upload Artifact
       # -------------------------
-      - name: Deploy Executable
-        run: |
-          echo "=== Listing release directory ==="
-          dir /s release\
-          echo.
-          if exist "release\BMWServiceHistoryManager.exe" (
-            mkdir BMWServiceHistoryManager-Portable
-            copy release\BMWServiceHistoryManager.exe BMWServiceHistoryManager-Portable\
-            echo.
-            echo "=== Executable déployé (statique, sans DLLs) ==="
-            dir BMWServiceHistoryManager-Portable\
-          ) else (
-            echo ERROR: Executable not found!
-            exit 1
-          )
-        shell: cmd
-
-      # -------------------------
-      # Créer archive contenant l'unique executable
-      # -------------------------
-      - name: Create Archive
-        run: |
-          7z a -r BMWServiceHistoryManager-Portable.7z BMWServiceHistoryManager-Portable\BMWServiceHistoryManager.exe
-          echo.
-          echo "=== Archive created ==="
-          dir BMWServiceHistoryManager-Portable.7z
-        shell: cmd
-
-      # -------------------------
-      # Upload - Artefact unique
-      # -------------------------
-      - name: Upload Portable Artifact
+      - name: Upload Release
         uses: actions/upload-artifact@v4
         with:
           name: BMWServiceHistoryManager-Portable
