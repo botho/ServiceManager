@@ -19,7 +19,7 @@ jobs:
         uses: jurplel/install-qt-action@v4
         with:
           version: '6.8.3'
-          arch: 'win64_msvc2022_64'   # build dynamique, disponible via aqt
+          arch: 'win64_msvc2022_64'
 
       - name: Run QMake
         run: qmake ServiceCreator.pro CONFIG+=release
@@ -34,13 +34,23 @@ jobs:
           copy release\BMWServiceHistoryManager.exe release-pkg\
           windeployqt --release --no-translations release-pkg\BMWServiceHistoryManager.exe
 
-      - name: Package
+      - name: Create SFX config
         shell: cmd
-        run: 7z a BMWServiceHistoryManager-Portable.7z release-pkg\*
+        run: |
+          echo ;!@Install@!UTF-8! > sfx_config.txt
+          echo Title="BMW Service History Manager" >> sfx_config.txt
+          echo RunProgram="BMWServiceHistoryManager.exe" >> sfx_config.txt
+          echo ;!@InstallEnd@!          >> sfx_config.txt
+
+      - name: Build single portable EXE (SFX)
+        shell: cmd
+        run: |
+          7z a -t7z payload.7z .\release-pkg\*
+          copy /b "C:\Program Files\7-Zip\7z.sfx" + sfx_config.txt + payload.7z BMWServiceHistoryManager-Portable.exe
 
       - name: Upload Release
         uses: actions/upload-artifact@v4
         with:
           name: BMWServiceHistoryManager-Portable
-          path: BMWServiceHistoryManager-Portable.7z
+          path: BMWServiceHistoryManager-Portable.exe
           retention-days: 30
