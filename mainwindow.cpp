@@ -84,7 +84,7 @@ void MainWindow::reloadTable() {
         ui->servicesTable->setItem(i, 0, new QTableWidgetItem(this->service->services[i].date.toString("dd.MM.yyyy")));
         ui->servicesTable->setItem(i, 1, new QTableWidgetItem(tr("%1").arg(this->service->services[i].milage)));
         ui->servicesTable->setItem(i, 2, new QTableWidgetItem(this->service->services[i].dealer));
-        ui->servicesTable->setItem(i, 3, new QTableWidgetItem(this->service->services[i].bmw ? "yes" : "no"));
+        ui->servicesTable->setItem(i, 3, new QTableWidgetItem(this->service->services[i].bmw ? "Oui" : "Non"));
         ui->servicesTable->setItem(i, 4, new QTableWidgetItem(TimeStringValue(this->service->services[i].time)));
     }
 }
@@ -167,7 +167,7 @@ void MainWindow::on_dealer_textChanged(const QString &arg1) {
 void MainWindow::on_bmw_stateChanged(int arg1) {
     int i = this->selectedRow;
     this->service->services[i].bmw = ui->bmw->isChecked();
-    ui->servicesTable->setItem(i, 3, new QTableWidgetItem(this->service->services[i].bmw ? "oui" : "non"));
+    ui->servicesTable->setItem(i, 3, new QTableWidgetItem(this->service->services[i].bmw ? "Oui" : "Non"));
 }
 
 void MainWindow::on_status_currentIndexChanged(int index) {

@@ -33,15 +33,16 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
 
       # -------------------------
-      # Qt install (optimisé + cache)
+      # Qt install STATIC (optimisé + cache)
       # -------------------------
-      - name: Install Qt
+      - name: Install Qt Static
         uses: jurplel/install-qt-action@v4
         with:
           version: ${{ env.QT_VERSION }}
           arch: ${{ env.QT_ARCH }}
+          static: 'true'
           cache: true
-          cache-key-prefix: qt-${{ env.QT_VERSION }}
+          cache-key-prefix: qt-static-${{ env.QT_VERSION }}
 
       # -------------------------
       # Build (qmake)
@@ -61,34 +62,44 @@ jobs:
           dir /s release\
           echo.
           echo "=== Checking for executable ==="
-          if exist "release\ServiceCreator.exe" (
-            echo Found: release\ServiceCreator.exe
-            dir release\ServiceCreator.exe
+          if exist "release\BMWServiceHistoryManager.exe" (
+            echo Found: release\BMWServiceHistoryManager.exe
+            dir release\BMWServiceHistoryManager.exe
           ) else (
-            echo ERROR: release\ServiceCreator.exe not found!
+            echo ERROR: release\BMWServiceHistoryManager.exe not found!
             exit 1
           )
         shell: cmd
 
       # -------------------------
-      # Deploy avec windeployqt - Portable Standalone
+      # Deploy - Executable seul (tout embarqué)
       # -------------------------
-      - name: Deploy Qt libraries
+      - name: Deploy Executable
         run: |
-          mkdir BMWServiceHistoryManager-Portable
-          copy release\ServiceCreator.exe BMWServiceHistoryManager-Portable\BMWServiceHistoryManager.exe
-          windeployqt --release --no-translations BMWServiceHistoryManager-Portable\BMWServiceHistoryManager.exe
+          echo "=== Listing release directory ==="
+          dir /s release\
           echo.
-          echo "=== Deployment complete. Listing portable directory ==="
-          dir /s BMWServiceHistoryManager-Portable\
+          if exist "release\BMWServiceHistoryManager.exe" (
+            mkdir BMWServiceHistoryManager-Portable
+            copy release\BMWServiceHistoryManager.exe BMWServiceHistoryManager-Portable\
+            echo.
+            echo "=== Executable déployé (statique, sans DLLs) ==="
+            dir BMWServiceHistoryManager-Portable\
+          ) else (
+            echo ERROR: Executable not found!
+            exit 1
+          )
         shell: cmd
 
       # -------------------------
-      # Créer un unique artefact 7z compressé
+      # Créer archive contenant l'unique executable
       # -------------------------
-      - name: Create 7z Portable Archive
+      - name: Create Archive
         run: |
-          7z a -r BMWServiceHistoryManager-Portable.7z BMWServiceHistoryManager-Portable\*
+          7z a -r BMWServiceHistoryManager-Portable.7z BMWServiceHistoryManager-Portable\BMWServiceHistoryManager.exe
+          echo.
+          echo "=== Archive created ==="
+          dir BMWServiceHistoryManager-Portable.7z
         shell: cmd
 
       # -------------------------
