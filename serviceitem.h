@@ -22,7 +22,7 @@ enum ServiceItemType {
     preDelivery=20,                    // Contrôle avant livraison
     serviceInspection=21,              // Inspection de service
     dieselAdditive=22,                 // Additif pour gazole
-    statutoryInspection=32,            // Contrôle réglementaire
+    statutoryInspection=32,            // Contrôle technique
     emissionsTest=33,                  // Contrôle des émissions
     airFilterAlt=34,                   // Filtre à air (alternatif)
     vehicleCheckAlt=90,                // Contrôle du véhicule (alternatif)

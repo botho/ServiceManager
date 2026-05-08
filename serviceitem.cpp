@@ -107,7 +107,7 @@ QString ServiceStringValue(ServiceItemType item) {
     case preDelivery: return "Contrôle avant livraison";
     case serviceInspection: return "Inspection de service";
     case dieselAdditive: return "Additif pour gazole";
-    case statutoryInspection: return "Contrôle réglementaire";
+    case statutoryInspection: return "Contrôle technique";
     case emissionsTest: return "Contrôle des émissions";
     case airFilterAlt: return "Filtre à air (alt)";
     case vehicleCheckAlt: return "Contrôle du véhicule (alt)";
