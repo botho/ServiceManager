@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QTableWidget>
+#include <QScrollBar>
+#include <QHeaderView>
 #include <servicehistory.h>
 #include <servicemanager.h>
 
