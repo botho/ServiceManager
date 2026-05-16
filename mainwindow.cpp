@@ -13,9 +13,17 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     this->setWindowTitle("Gestionnaire d'historique de services BMW");
     ui->servicesTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->servicesTable->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->servicesTable->horizontalHeader()->setStretchLastSection(false);
+    ui->servicesTable->setColumnCount(5);
+    ui->servicesTable->setHorizontalHeaderLabels(QStringList() << "Date" << "Kilométrage" << "Concession" << "BMW" << "Statut");
+    resizeTableColumns(ui->servicesTable);
 
     ui->serviceItemsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->serviceItemsTable->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->serviceItemsTable->horizontalHeader()->setStretchLastSection(false);
+    ui->serviceItemsTable->setColumnCount(4);
+    ui->serviceItemsTable->setHorizontalHeaderLabels(QStringList() << "Type" << "Statut" << "Distance restante (km)" << "Temps restant (mois)");
+    resizeTableColumns(ui->serviceItemsTable);
 
     ui->status->addItems(ServiceTimeList());
     ui->serviceStatus->addItems(ServiceTimeList());
@@ -29,6 +37,36 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
 MainWindow::~MainWindow() {
     delete ui;
+}
+
+void MainWindow::resizeTableColumns(QTableWidget *table) {
+    // Adapter les colonnes au contenu
+    table->resizeColumnsToContents();
+    
+    // Obtenir la largeur disponible du widget table
+    int availableWidth = table->width() - table->verticalHeader()->width();
+    
+    // Soustraire la largeur de la scrollbar si elle est visible
+    if (table->horizontalScrollBar()->isVisible()) {
+        availableWidth -= table->horizontalScrollBar()->height();
+    }
+    
+    // Calculer la largeur totale des colonnes
+    int totalWidth = 0;
+    for (int i = 0; i < table->columnCount(); ++i) {
+        totalWidth += table->columnWidth(i);
+    }
+    
+    // Si les colonnes sont plus petites que la largeur disponible, les étirer
+    if (totalWidth < availableWidth) {
+        // Distribuer l'espace restant proportionnellement à chaque colonne
+        int extraWidth = availableWidth - totalWidth;
+        for (int i = 0; i < table->columnCount(); ++i) {
+            int currentWidth = table->columnWidth(i);
+            int proportion = (currentWidth * extraWidth) / totalWidth;
+            table->setColumnWidth(i, currentWidth + proportion);
+        }
+    }
 }
 
 void MainWindow::on_actionCreate_triggered() {
@@ -77,6 +115,7 @@ void MainWindow::on_actionSave_as_triggered() {
 
 void MainWindow::reloadTable() {
     ui->historyCheckBox->setChecked(this->manager.eraseHistory);
+    ui->steuergeraeteResetCheckBox->setChecked(this->manager.steuergeraeteReset);
     ui->servicesTable->setColumnCount(5);
     ui->servicesTable->setHorizontalHeaderLabels(QStringList() << "Date" << "Kilométrage" << "Concession" << "BMW" << "Statut");
     ui->servicesTable->setRowCount(this->service->services.count());
@@ -87,6 +126,7 @@ void MainWindow::reloadTable() {
         ui->servicesTable->setItem(i, 3, new QTableWidgetItem(this->service->services[i].bmw ? "Oui" : "Non"));
         ui->servicesTable->setItem(i, 4, new QTableWidgetItem(TimeStringValue(this->service->services[i].time)));
     }
+    resizeTableColumns(ui->servicesTable);
 }
 
 void MainWindow::reloadSecondTable() {
@@ -100,6 +140,7 @@ void MainWindow::reloadSecondTable() {
         ui->serviceItemsTable->setItem(i, 2, new QTableWidgetItem(tr("%1").arg(item.remainingDistance)));
         ui->serviceItemsTable->setItem(i, 3, new QTableWidgetItem(tr("%1").arg(item.remainingTime)));
     }
+    resizeTableColumns(ui->serviceItemsTable);
 }
 
 void MainWindow::setFirstSelectionAvailable(bool available) {
@@ -144,6 +185,10 @@ void MainWindow::on_servicesTable_cellClicked(int row, int column) {
 
 void MainWindow::on_historyCheckBox_stateChanged() {
     this->manager.eraseHistory = ui->historyCheckBox->checkState();
+}
+
+void MainWindow::on_steuergeraeteResetCheckBox_stateChanged() {
+    this->manager.steuergeraeteReset = ui->steuergeraeteResetCheckBox->checkState();
 }
 
 void MainWindow::on_time_userDateChanged(const QDate &date) {

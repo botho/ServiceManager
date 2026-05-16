@@ -7,6 +7,7 @@
 class ServiceManager {
 public:
     bool eraseHistory = true;
+    bool steuergeraeteReset = false;
 
     ServiceManager();
     ServiceHistory * readHistoryFromFile(QString);

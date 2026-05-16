@@ -14,6 +14,7 @@ ServiceHistory * ServiceManager::readHistoryFromFile(QString fileName) {
     QString fileContent = in.readAll();
     file.close();
     this->eraseHistory = fileContent.contains("steuern_servicehistory_erase");
+    this->steuergeraeteReset = fileContent.contains("STEUERGERAETE_RESET");
     return new ServiceHistory(fileContent);
 }
 
@@ -29,6 +30,9 @@ bool ServiceManager::writeHistoryToFile(QString fileName, ServiceHistory * histo
         startingOffset = 1;
     }
     out << history->toString(startingOffset);
+    if (this->steuergeraeteReset) {
+        out << "1|g_mmi|STEUERGERAETE_RESET\r\n";
+    }
     file.flush();
     file.close();
     return true;

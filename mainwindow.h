@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTableWidget>
 #include <servicehistory.h>
 #include <servicemanager.h>
 
@@ -34,6 +35,8 @@ private slots:
     void on_servicesTable_cellClicked(int row, int column);
 
     void on_historyCheckBox_stateChanged();
+
+    void on_steuergeraeteResetCheckBox_stateChanged();
 
     void on_time_userDateChanged(const QDate &date);
 
@@ -71,6 +74,7 @@ private:
     Ui::MainWindow *ui;
     void reloadTable();
     void reloadSecondTable();
+    void resizeTableColumns(QTableWidget *table);
     void setFirstSelectionAvailable(bool);
     void setSecondSelectionAvailable(bool);
 };

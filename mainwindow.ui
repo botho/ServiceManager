@@ -63,7 +63,7 @@
        <bool>false</bool>
       </property>
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -260,38 +260,52 @@
     <item row="0" column="0">
      <widget class="QLabel" name="label">
       <property name="text">
-       <string>Gestionnaire d'historique de services complet. Actuellement testé sur NBT</string>
+       <string>Gestionnaire d'historique de services pour NBT</string>
       </property>
      </widget>
     </item>
     <item row="1" column="0">
      <widget class="QCheckBox" name="historyCheckBox">
       <property name="text">
-       <string>Effacer l'historique avant d'ajouter des entrées ? ! ! ! Sera ajouté en bas de la liste actuelle ! ! !</string>
+       <string>Effacer l'historique avant d'ajouter des entrées ? (sinon les nouveaux services seront ajoutés en fin  de la liste actuelle)</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QCheckBox" name="steuergeraeteResetCheckBox">
+      <property name="text">
+       <string>Redémarrer NBT après chargement de l'historique ?</string>
       </property>
      </widget>
     </item>
     <item row="3" column="0">
-     <widget class="QTableWidget" name="servicesTable"/>
-    </item>
-    <item row="5" column="0">
-     <widget class="QLabel" name="label_3">
+     <widget class="QLabel" name="label_2">
       <property name="text">
-       <string>Détails du service. Sélectionnez un service à éditer.</string>
+       <string>Historique des services</string>
       </property>
      </widget>
     </item>
-    <item row="4" column="0" colspan="2">
+    <item row="4" column="0">
+     <widget class="QTableWidget" name="servicesTable">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0" colspan="2">
      <widget class="Line" name="line">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
      </widget>
     </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_2">
+    <item row="6" column="0">
+     <widget class="QLabel" name="label_3">
       <property name="text">
-       <string>Historique des services</string>
+       <string>Détails du service. Sélectionnez un service à éditer.</string>
       </property>
      </widget>
     </item>
@@ -302,7 +316,7 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="1">
+    <item row="4" column="1">
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <widget class="QPushButton" name="addTopHistory">
@@ -356,7 +370,7 @@
       </item>
      </layout>
     </item>
-    <item row="8" column="0">
+    <item row="9" column="0">
      <widget class="QLabel" name="label_5">
       <property name="text">
        <string>Éléments de service</string>
