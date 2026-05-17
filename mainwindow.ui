@@ -30,7 +30,7 @@
     <item row="0" column="0">
      <widget class="QCheckBox" name="historyCheckBox">
       <property name="text">
-             <string>Clear history before adding entries? (If not, new services will be added at the end of the current list)</string>
+             <string>Clear history before adding entries (If not, new services will be added at the end of the current list)</string>
       </property>
      </widget>
     </item>
@@ -72,7 +72,7 @@
       </property>
      </widget>
     </item>
-    <item row="6" column="0" rowspan="2" colspan="2">
+    <item row="6" column="0" colspan="2">
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QDateEdit" name="time">
