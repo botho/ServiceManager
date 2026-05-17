@@ -5,31 +5,20 @@
 #include <QString>
 
 enum ServiceItemType {
-    engineOil=1,                       // Huile moteur
-    frontBrake=2,                      // Freins avant
-    brakeFluid=3,                      // Liquide de frein
-    microFilter=4,                     // Microfiltre
-    recirculatingAirFilter=5,          // Filtre à air de recirculation
-    rearBreak=6,                       // Freins arrière
-    dieselFilter=7,                    // Filtre à gazole
-    fuelFilter=8,                      // Filtre à carburant
-    sparkPlugs=10,                     // Bougies d'allumage
-    airFilter=11,                      // Filtre à air
-    fuelFilterAlt=12,                  // Filtre à carburant (alternatif)
-    sparkPlugsAlt=16,                  // Bougies d'allumage (alternatif)
-    vehicleCheckManual=17,             // Contrôle du véhicule
-    coolant=18,                        // Liquide de refroidissement
-    preDelivery=20,                    // Contrôle avant livraison
-    serviceInspection=21,              // Inspection de service
-    dieselAdditive=22,                 // Additif pour gazole
-    statutoryInspection=32,            // Contrôle technique
-    emissionsTest=33,                  // Contrôle des émissions
-    airFilterAlt=34,                   // Filtre à air (alternatif)
-    vehicleCheckAlt=90,                // Contrôle du véhicule (alternatif)
-    vehicleCheck=100,                  // Contrôle du véhicule
-    sparkPlugsAlt2=118,                // Bougies d'allumage (alternatif 2)
-    microFilterAlt=119,                // Microfiltre (alternatif)
-    recirculatingAirFilterAlt=219      // Filtre à air de recirculation (alternatif)
+    engineOil=1,
+    frontBrake=2,
+    brakeFluid=3,
+    microFilter=4,
+    recirculatingAirFilter=5,
+    rearBreak=6,
+    sparkPlugs=10,
+    airFilter=11,
+    fuelFilter=12,
+    vehicleCheck=100,
+    preDelivery=20,
+    serviceInspection=21,
+    statutoryInspection=32,
+    emissionsTest=33
 };
 
 enum ServiceTime { ok=1, late=2, over=3 };
@@ -48,8 +37,8 @@ class ServiceItem {
 public:
     ServiceItemType type;
     ServiceTime time;
-    int remainingDistance;  // Distance restante en km (peut être négative)
-    int remainingTime;      // Temps restant en mois (ne peut pas être négatif)
+    int remainingDistance;
+    int remainingTime;
 
     ServiceItem(ServiceItemType, ServiceTime, int remainingDistance = 0, int remainingTime = 0);
     QString toString();

@@ -21,6 +21,8 @@ class MainWindow : public QMainWindow
     QString fileName;
     int selectedRow = -1;
     int selectedService = -1;
+    int sortColumn = -1;
+    Qt::SortOrder sortOrder = Qt::AscendingOrder;
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -72,6 +74,8 @@ private slots:
 
     void on_remainingTime_textChanged(const QString &arg1);
 
+    void on_servicesTable_headerClicked(int column);
+
 private:
     Ui::MainWindow *ui;
     void reloadTable();
@@ -79,5 +83,6 @@ private:
     void resizeTableColumns(QTableWidget *table);
     void setFirstSelectionAvailable(bool);
     void setSecondSelectionAvailable(bool);
+    void sortServicesTable(int column);
 };
 #endif // MAINWINDOW_H

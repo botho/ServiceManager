@@ -18,7 +18,7 @@ ServiceHistory::ServiceHistory(QString str) {
 QString ServiceHistory::toString(int startingOffset) {
     QString returning = "";
     for (int i = 0; i < this->services.count(); ++i) {
-        returning += QString("%1").arg(startingOffset + i + 1) + "|g_mmi|steuern_servicehistory_add||" + this->services[i].toString() + "\r\n";
+        returning += QString("%1").arg(startingOffset + i + 1) + "|g_mmi|STEUERN_SERVICEHISTORY_ADD||" + this->services[i].toString() + "\r\n";
     }
     return returning;
 }

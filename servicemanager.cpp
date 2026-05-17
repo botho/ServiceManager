@@ -13,7 +13,7 @@ ServiceHistory * ServiceManager::readHistoryFromFile(QString fileName) {
     QTextStream in(&file);
     QString fileContent = in.readAll();
     file.close();
-    this->eraseHistory = fileContent.contains("steuern_servicehistory_erase");
+    this->eraseHistory = fileContent.contains("STEUERN_SERVICEHISTORY_ERASE");
     this->steuergeraeteReset = fileContent.contains("STEUERGERAETE_RESET");
     return new ServiceHistory(fileContent);
 }
@@ -27,14 +27,12 @@ bool ServiceManager::writeHistoryToFile(QString fileName, ServiceHistory * histo
     int startingOffset = 0;
     QString eraseLine;
     if (this->eraseHistory) {
-        eraseLine = "1|g_mmi|steuern_servicehistory_erase\r\n";
+        eraseLine = "1|g_mmi|STEUERN_SERVICEHISTORY_ERASE\r\n";
         startingOffset = 1;
     }
 
-    // Generate history string with the appropriate starting offset
     QString historyStr = history->toString(startingOffset);
 
-    // Write erase line (if any) and the history content
     if (!eraseLine.isEmpty()) {
         out << eraseLine;
     }
