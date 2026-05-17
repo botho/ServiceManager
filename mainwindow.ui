@@ -27,48 +27,29 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="9" column="0" colspan="2">
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QComboBox" name="serviceType"/>
-      </item>
-      <item>
-       <widget class="QComboBox" name="serviceStatus"/>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="remainingDistance">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="placeholderText">
-                 <string>Remaining distance (Km)</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="remainingTime">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="placeholderText">
-                 <string>Remaining time (months)</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="10" column="0" colspan="2">
-     <widget class="QLabel" name="label_5">
+    <item row="0" column="0">
+     <widget class="QCheckBox" name="historyCheckBox">
       <property name="text">
-             <string>Service Items</string>
+             <string>Clear history before adding entries? (If not, new services will be added at the end of the current list)</string>
       </property>
      </widget>
     </item>
-    <item row="11" column="0">
-     <widget class="QTableWidget" name="serviceItemsTable">
-      <property name="enabled">
-       <bool>false</bool>
+    <item row="1" column="0" colspan="2">
+     <widget class="QCheckBox" name="steuergeraeteResetCheckBox">
+      <property name="text">
+             <string>Restart NBT after loading history?</string>
       </property>
+     </widget>
+    </item>
+    <item row="2" column="0" colspan="2">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+             <string>Service History</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QTableWidget" name="servicesTable">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>0</horstretch>
@@ -77,81 +58,21 @@
       </property>
      </widget>
     </item>
-    <item row="11" column="1">
-     <layout class="QVBoxLayout" name="verticalLayout_3">
-      <item>
-       <widget class="QPushButton" name="addTopService">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="text">
-                 <string>Add top</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="verticalSpacer_4">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QPushButton" name="deleteSelectedService">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="text">
-                 <string>Delete selection</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="verticalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QPushButton" name="addBottomService">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="text">
-                 <string>Add bottom</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="5" column="0" colspan="2">
+    <item row="4" column="0" colspan="2">
      <widget class="Line" name="line">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
      </widget>
     </item>
-    <item row="6" column="0" colspan="2">
+    <item row="5" column="0">
      <widget class="QLabel" name="label_3">
       <property name="text">
-       <string>Service details. Select a service to edit.</string>
+             <string>Service details. Select a service to edit.</string>
       </property>
      </widget>
     </item>
-    <item row="7" column="0" rowspan="2" colspan="2">
+    <item row="6" column="0" rowspan="2" colspan="2">
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QDateEdit" name="time">
@@ -278,36 +199,18 @@
       </item>
      </layout>
     </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="label">
+    <item row="7" column="0" colspan="2">
+     <widget class="QLabel" name="label_5">
       <property name="text">
-             <string>BMW Service History Manager</string>
+             <string>Service Items</string>
       </property>
      </widget>
     </item>
-    <item row="1" column="0">
-     <widget class="QCheckBox" name="historyCheckBox">
-      <property name="text">
-             <string>Clear history before adding entries? (If not, new services will be added at the end of the current list)</string>
+    <item row="8" column="0">
+     <widget class="QTableWidget" name="serviceItemsTable">
+      <property name="enabled">
+       <bool>false</bool>
       </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QCheckBox" name="steuergeraeteResetCheckBox">
-      <property name="text">
-             <string>Restart NBT after loading history?</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-             <string>Service History</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QTableWidget" name="servicesTable">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>0</horstretch>
@@ -316,28 +219,44 @@
       </property>
      </widget>
     </item>
-    <item row="5" column="0" colspan="2">
-     <widget class="Line" name="line">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="0">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-             <string>Service details. Select a service to edit.</string>
-      </property>
-     </widget>
-    </item>
-    <item row="10" column="0">
+    <item row="9" column="0">
      <widget class="QLabel" name="label_4">
       <property name="text">
              <string>Service item details</string>
       </property>
      </widget>
     </item>
-    <item row="4" column="1">
+    <item row="10" column="0" colspan="2">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QComboBox" name="serviceType"/>
+      </item>
+      <item>
+       <widget class="QComboBox" name="serviceStatus"/>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="remainingDistance">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="placeholderText">
+                 <string>Remaining distance (Km)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="remainingTime">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="placeholderText">
+                 <string>Remaining time (Months)</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="3" column="1">
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
      <widget class="QPushButton" name="addTopHistory">
@@ -391,12 +310,65 @@
       </item>
      </layout>
     </item>
-    <item row="9" column="0">
-     <widget class="QLabel" name="label_5">
-      <property name="text">
-             <string>Service Items</string>
-      </property>
-     </widget>
+    <item row="8" column="1">
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QPushButton" name="addTopService">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+                 <string>Add top</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="deleteSelectedService">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+                 <string>Delete selection</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="addBottomService">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+                 <string>Add bottom</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>
@@ -414,7 +386,7 @@
          <string>File</string>
     </property>
     <addaction name="actionCreate"/>
-    <addaction name="actionOpen_Test"/>
+    <addaction name="actionOpen"/>
     <addaction name="actionSafe"/>
     <addaction name="actionSave_as"/>
    </widget>
@@ -432,7 +404,7 @@
     <string>Ctrl+N</string>
    </property>
   </action>
-  <action name="actionOpen_Test">
+  <action name="actionOpen">
    <property name="text">
         <string>Open</string>
    </property>
