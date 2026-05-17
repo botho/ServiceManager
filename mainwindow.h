@@ -76,6 +76,10 @@ private slots:
 
     void on_servicesTable_headerClicked(int column);
 
+    void on_moveUpService_clicked();
+
+    void on_moveDownService_clicked();
+
 private:
     Ui::MainWindow *ui;
     void reloadTable();

@@ -43,26 +43,20 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::resizeTableColumns(QTableWidget *table) {
-    // Adapter les colonnes au contenu
     table->resizeColumnsToContents();
     
-    // Obtenir la largeur disponible du widget table
     int availableWidth = table->width() - table->verticalHeader()->width();
     
-    // Soustraire la largeur de la scrollbar si elle est visible
     if (table->horizontalScrollBar()->isVisible()) {
         availableWidth -= table->horizontalScrollBar()->height();
     }
     
-    // Calculer la largeur totale des colonnes
     int totalWidth = 0;
     for (int i = 0; i < table->columnCount(); ++i) {
         totalWidth += table->columnWidth(i);
     }
     
-    // Si les colonnes sont plus petites que la largeur disponible, les étirer
     if (totalWidth < availableWidth) {
-        // Distribuer l'espace restant proportionnellement à chaque colonne
         int extraWidth = availableWidth - totalWidth;
         for (int i = 0; i < table->columnCount(); ++i) {
             int currentWidth = table->columnWidth(i);
@@ -169,6 +163,8 @@ void MainWindow::setSecondSelectionAvailable(bool available) {
     ui->serviceType->setEnabled(available);
     ui->remainingDistance->setEnabled(available);
     ui->remainingTime->setEnabled(available);
+    ui->moveUpService->setEnabled(available);
+    ui->moveDownService->setEnabled(available);
 }
 
 void MainWindow::on_servicesTable_cellClicked(int row, int column) {
@@ -340,4 +336,40 @@ void MainWindow::sortServicesTable(int column) {
     this->selectedRow = -1;
     setFirstSelectionAvailable(false);
     reloadTable();
+}
+
+void MainWindow::on_moveUpService_clicked() {
+    if (this->selectedRow < 0 || this->selectedService < 0) { return; }
+    if (this->selectedService == 0) { return; } // Can't move first item up
+    
+    // Swap the current item with the one above
+    ServiceItem temp = this->service->services[this->selectedRow].items[this->selectedService];
+    this->service->services[this->selectedRow].items[this->selectedService] = 
+        this->service->services[this->selectedRow].items[this->selectedService - 1];
+    this->service->services[this->selectedRow].items[this->selectedService - 1] = temp;
+    
+    // Update selection to follow the moved item
+    this->selectedService--;
+    reloadSecondTable();
+    
+    // Reselect the moved item
+    ui->serviceItemsTable->selectRow(this->selectedService);
+}
+
+void MainWindow::on_moveDownService_clicked() {
+    if (this->selectedRow < 0 || this->selectedService < 0) { return; }
+    if (this->selectedService >= this->service->services[this->selectedRow].items.count() - 1) { return; } // Can't move last item down
+    
+    // Swap the current item with the one below
+    ServiceItem temp = this->service->services[this->selectedRow].items[this->selectedService];
+    this->service->services[this->selectedRow].items[this->selectedService] = 
+        this->service->services[this->selectedRow].items[this->selectedService + 1];
+    this->service->services[this->selectedRow].items[this->selectedService + 1] = temp;
+    
+    // Update selection to follow the moved item
+    this->selectedService++;
+    reloadSecondTable();
+    
+    // Reselect the moved item
+    ui->serviceItemsTable->selectRow(this->selectedService);
 }
