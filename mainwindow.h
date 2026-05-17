@@ -28,7 +28,7 @@ public:
 private slots:
     void on_actionCreate_triggered();
 
-    void on_actionOpen_Test_triggered();
+    void on_actionOpen_triggered();
 
     void on_actionSafe_triggered();
 

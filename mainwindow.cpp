@@ -80,7 +80,7 @@ void MainWindow::on_actionCreate_triggered() {
     }
 }
 
-void MainWindow::on_actionOpen_Test_triggered() {
+void MainWindow::on_actionOpen_triggered() {
     this->fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::homePath() + "/Desktop", tr("Test file (*.tst)"));
     if (this->fileName.count()) {
         this->service = this->manager.readHistoryFromFile(fileName);

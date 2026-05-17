@@ -40,9 +40,7 @@ bool ServiceManager::writeHistoryToFile(QString fileName, ServiceHistory * histo
     }
     out << historyStr;
 
-    // If the STEUERGERAETE_RESET flag is set, append it with an incremented id
     if (this->steuergeraeteReset) {
-        // The next id is simply startingOffset + number_of_services + 1
         int newId = startingOffset + history->services.count() + 1;
         out << QString("%1|g_mmi|STEUERGERAETE_RESET\r\n").arg(newId);
     }
