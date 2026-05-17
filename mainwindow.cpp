@@ -10,19 +10,19 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
     ui->setupUi(this);
 
-    this->setWindowTitle("Gestionnaire d'historique de services BMW");
+    this->setWindowTitle("BMW Service History Manager");
     ui->servicesTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->servicesTable->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->servicesTable->horizontalHeader()->setStretchLastSection(false);
     ui->servicesTable->setColumnCount(5);
-    ui->servicesTable->setHorizontalHeaderLabels(QStringList() << "Date" << "Kilométrage" << "Concession" << "BMW" << "Statut");
+    ui->servicesTable->setHorizontalHeaderLabels(QStringList() << "Date" << "Mileage" << "Dealer" << "BMW" << "Status");
     resizeTableColumns(ui->servicesTable);
 
     ui->serviceItemsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->serviceItemsTable->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->serviceItemsTable->horizontalHeader()->setStretchLastSection(false);
     ui->serviceItemsTable->setColumnCount(4);
-    ui->serviceItemsTable->setHorizontalHeaderLabels(QStringList() << "Type" << "Statut" << "Distance restante (km)" << "Temps restant (mois)");
+    ui->serviceItemsTable->setHorizontalHeaderLabels(QStringList() << "Type" << "Status" << "Remaining distance (Km)" << "Remaining time (months)");
     resizeTableColumns(ui->serviceItemsTable);
 
     ui->status->addItems(ServiceTimeList());
@@ -74,7 +74,7 @@ void MainWindow::on_actionCreate_triggered() {
     if (this->fileName.count()) {
         this->service = new ServiceHistory();
         if (!this->manager.writeHistoryToFile(fileName, this->service)) {
-            QMessageBox::information(0, "erreur", "Impossible de créer le fichier");
+            QMessageBox::information(0, "Error", "Could not create file");
         }
         reloadTable();
     }
@@ -85,7 +85,7 @@ void MainWindow::on_actionOpen_Test_triggered() {
     if (this->fileName.count()) {
         this->service = this->manager.readHistoryFromFile(fileName);
         if (!this->service) {
-            QMessageBox::information(0, "erreur", "Impossible d'ouvrir le fichier");
+            QMessageBox::information(0, "Error", "Could not open file");
         }
         reloadTable();
     }
@@ -94,7 +94,7 @@ void MainWindow::on_actionOpen_Test_triggered() {
 void MainWindow::on_actionSafe_triggered() {
     if (this->fileName.count() > 0) {
         if (!this->manager.writeHistoryToFile(this->fileName, this->service)) {
-            QMessageBox::information(0, "erreur", "Impossible d'enregistrer le fichier");
+            QMessageBox::information(0, "Error", "Could not save file");
         }
     } else {
         on_actionSave_as_triggered();
@@ -105,7 +105,7 @@ void MainWindow::on_actionSave_as_triggered() {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Create File"), QDir::homePath() + "/Desktop/test.tst", tr("Test file (*.tst)"));
     if (fileName.count()) {
         if (!this->manager.writeHistoryToFile(fileName, this->service)) {
-            QMessageBox::information(0, "erreur", "Impossible d'enregistrer le fichier");
+            QMessageBox::information(0, "Error", "Could not save file");
         }
         if (this->fileName.count() == 0) {
             this->fileName = fileName;
@@ -117,13 +117,13 @@ void MainWindow::reloadTable() {
     ui->historyCheckBox->setChecked(this->manager.eraseHistory);
     ui->steuergeraeteResetCheckBox->setChecked(this->manager.steuergeraeteReset);
     ui->servicesTable->setColumnCount(5);
-    ui->servicesTable->setHorizontalHeaderLabels(QStringList() << "Date" << "Kilométrage" << "Concession" << "BMW" << "Statut");
+    ui->servicesTable->setHorizontalHeaderLabels(QStringList() << "Date" << "Mileage" << "Dealer" << "BMW" << "Status");
     ui->servicesTable->setRowCount(this->service->services.count());
     for (int i = 0; i < this->service->services.count(); ++i) {
         ui->servicesTable->setItem(i, 0, new QTableWidgetItem(this->service->services[i].date.toString("dd.MM.yyyy")));
         ui->servicesTable->setItem(i, 1, new QTableWidgetItem(tr("%1").arg(this->service->services[i].milage)));
         ui->servicesTable->setItem(i, 2, new QTableWidgetItem(this->service->services[i].dealer));
-        ui->servicesTable->setItem(i, 3, new QTableWidgetItem(this->service->services[i].bmw ? "Oui" : "Non"));
+        ui->servicesTable->setItem(i, 3, new QTableWidgetItem(this->service->services[i].bmw ? "Yes" : "No"));
         ui->servicesTable->setItem(i, 4, new QTableWidgetItem(TimeStringValue(this->service->services[i].time)));
     }
     resizeTableColumns(ui->servicesTable);
@@ -131,7 +131,7 @@ void MainWindow::reloadTable() {
 
 void MainWindow::reloadSecondTable() {
     ui->serviceItemsTable->setColumnCount(4);
-    ui->serviceItemsTable->setHorizontalHeaderLabels(QStringList() << "Type" << "Statut" << "Distance restante (km)" << "Temps restant (mois)");
+    ui->serviceItemsTable->setHorizontalHeaderLabels(QStringList() << "Type" << "Status" << "Remaining distance (Km)" << "Remaining time (months)");
     ui->serviceItemsTable->setRowCount(this->service->services[this->selectedRow].items.count());
     for (int i = 0; i < this->service->services[this->selectedRow].items.count(); ++i) {
         ServiceItem item = this->service->services[this->selectedRow].items[i];
@@ -212,7 +212,7 @@ void MainWindow::on_dealer_textChanged(const QString &arg1) {
 void MainWindow::on_bmw_stateChanged(int arg1) {
     int i = this->selectedRow;
     this->service->services[i].bmw = ui->bmw->isChecked();
-    ui->servicesTable->setItem(i, 3, new QTableWidgetItem(this->service->services[i].bmw ? "Oui" : "Non"));
+    ui->servicesTable->setItem(i, 3, new QTableWidgetItem(this->service->services[i].bmw ? "Yes" : "No"));
 }
 
 void MainWindow::on_status_currentIndexChanged(int index) {

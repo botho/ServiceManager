@@ -12,7 +12,7 @@ QString ServiceItem::toString() {
 }
 
 QString TimeStringValue(ServiceTime time) {
-    return time == ok ? "OK" : time == late ? "En retard" : "Dépassé";
+    return time == ok ? "OK" : time == late ? "Late" : "Overdue";
 }
 
 int IndexForTime(ServiceTime time) {
@@ -90,31 +90,31 @@ ServiceItemType ServiceForIndex(int index) {
 
 QString ServiceStringValue(ServiceItemType item) {
     switch (item) {
-    case engineOil: return "Huile moteur";
-    case frontBrake: return "Freins avant";
-    case brakeFluid: return "Liquide de frein";
-    case microFilter: return "Microfiltre";
-    case recirculatingAirFilter: return "Filtre à air de recirculation";
-    case rearBreak: return "Freins arrière";
-    case dieselFilter: return "Filtre à gazole";
-    case fuelFilter: return "Filtre à carburant";
-    case sparkPlugs: return "Bougies d'allumage";
-    case airFilter: return "Filtre à air";
-    case fuelFilterAlt: return "Filtre à carburant (alt)";
-    case sparkPlugsAlt: return "Bougies d'allumage (alt)";
-    case vehicleCheckManual: return "Contrôle du véhicule";
-    case coolant: return "Liquide de refroidissement";
-    case preDelivery: return "Contrôle avant livraison";
-    case serviceInspection: return "Inspection de service";
-    case dieselAdditive: return "Additif pour gazole";
-    case statutoryInspection: return "Contrôle technique";
-    case emissionsTest: return "Contrôle des émissions";
-    case airFilterAlt: return "Filtre à air (alt)";
-    case vehicleCheckAlt: return "Contrôle du véhicule (alt)";
-    case vehicleCheck: return "Contrôle du véhicule";
-    case sparkPlugsAlt2: return "Bougies d'allumage (alt 2)";
-    case microFilterAlt: return "Microfiltre (alt)";
-    case recirculatingAirFilterAlt: return "Filtre à air de recirculation (alt)";
+    case engineOil: return "Engine oil";
+    case frontBrake: return "Front brakes";
+    case brakeFluid: return "Brake fluid";
+    case microFilter: return "Microfilter";
+    case recirculatingAirFilter: return "Recirculating air filter";
+    case rearBreak: return "Rear brakes";
+    case dieselFilter: return "Diesel filter";
+    case fuelFilter: return "Fuel filter";
+    case sparkPlugs: return "Spark plugs";
+    case airFilter: return "Air filter";
+    case fuelFilterAlt: return "Fuel filter (alt)";
+    case sparkPlugsAlt: return "Spark plugs (alt)";
+    case vehicleCheckManual: return "Vehicle check";
+    case coolant: return "Coolant";
+    case preDelivery: return "Pre-delivery check";
+    case serviceInspection: return "Service inspection";
+    case dieselAdditive: return "Diesel additive";
+    case statutoryInspection: return "Statutory inspection";
+    case emissionsTest: return "Emissions test";
+    case airFilterAlt: return "Air filter (alt)";
+    case vehicleCheckAlt: return "Vehicle check (alt)";
+    case vehicleCheck: return "Vehicle check";
+    case sparkPlugsAlt2: return "Spark plugs (alt 2)";
+    case microFilterAlt: return "Microfilter (alt)";
+    case recirculatingAirFilterAlt: return "Recirculating air filter (alt)";
     }
 }
 
